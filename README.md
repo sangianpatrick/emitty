@@ -1,7 +1,9 @@
 # emitty
+
 A simple Event Emitter package for Golang application
 
-# How to use
+## How to use
+
 You can get this package with this command:
 
-```go get -u github.com/sangianpatrick/emitty```
+```go get -u github.com/sangianpatrick/emitty.v1.0```
