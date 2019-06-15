@@ -4,7 +4,7 @@ import (
 	"log"
 )
 
-// Event will return function to attach and detach handler
+// Event contains attach and detach handler.
 type Event interface {
 	AttachEvent(eventName string, handler Handler) error
 	DetachEvent(eventName string) error
@@ -17,7 +17,7 @@ type event struct {
 	loh listofHandler
 }
 
-// NewEvent is an constructor of event. It will return function
+// NewEvent is an constructor of event.
 func NewEvent(ch <-chan *Message) Event {
 	loh := make(listofHandler)
 	e := &event{
@@ -60,7 +60,7 @@ func (e *event) detach(en string) {
 }
 
 // AttachEvent function that will push the event handler to the listener
-// and label it with event name
+// and label it with event name.
 func (e *event) AttachEvent(eventName string, handler Handler) error {
 	e.attach(eventName, handler)
 	if _, ok := e.loh[eventName]; !ok {
@@ -69,6 +69,8 @@ func (e *event) AttachEvent(eventName string, handler Handler) error {
 	return nil
 }
 
+// DetachEvent is function that will remove the event handler from the listener
+// by its label.
 func (e *event) DetachEvent(eventName string) error {
 	e.detach(eventName)
 	if _, ok := e.loh[eventName]; ok {
