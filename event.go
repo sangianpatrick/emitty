@@ -46,9 +46,7 @@ func (e *event) doListen() {
 }
 
 func (e *event) execute(fn Handler, data []interface{}) {
-	go func() {
-		fn(data...)
-	}()
+	go fn(data...)
 }
 
 func (e *event) attach(en string, h Handler) {
@@ -59,7 +57,7 @@ func (e *event) detach(en string) {
 	delete(e.loh, en)
 }
 
-// AttachEvent function that will push the event handler to the listener
+// AttachEvent is a function that will push the event handler to the listener
 // and label it with event name.
 func (e *event) AttachEvent(eventName string, handler Handler) error {
 	e.attach(eventName, handler)
@@ -69,12 +67,12 @@ func (e *event) AttachEvent(eventName string, handler Handler) error {
 	return nil
 }
 
-// DetachEvent is function that will remove the event handler from the listener
+// DetachEvent is a function that will remove the event handler from the listener
 // by its label.
 func (e *event) DetachEvent(eventName string) error {
-	e.detach(eventName)
 	if _, ok := e.loh[eventName]; ok {
-		return ErrDetach
+		e.detach(eventName)
+		return nil
 	}
-	return nil
+	return ErrDetach
 }
