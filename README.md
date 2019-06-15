@@ -1,9 +1,76 @@
 # emitty
 
-A simple Event Emitter package for Golang application
+A simple Event Emitter package for Golang application. This package contains both Emitter and Event.
+Emitter only has one function "Emit()" that send the data to the listener. Before the listener do its jobs, Event should attach an event name and a handler (to be executed after event is catched) by AttachEvent function, but if the event is needless, it could be detached by DetachEvent function.
+
+## How to install
+
+Using go get :
+
+```go get -u github.com/sangianpatrick/emitty```
+
+Using DEP :
+
+```dep ensure -add github.com/sangianpatrick/emitty```
 
 ## How to use
 
-You can get this package with this command:
+This is the package implementation.
 
-```go get -u github.com/sangianpatrick/emitty```
+```
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/sangianpatrick/emitty"
+)
+
+func main() {
+	M := emitty.New()
+
+	event := emitty.NewEvent(M)
+	emitter := emitty.NewEmitter(M)
+
+	eventName := "print"
+
+	fmt.Printf("Attaching event with name '%s' ...\n", eventName)
+	event.AttachEvent(eventName, printSomethingHandler)
+
+	time.Sleep(time.Second)
+
+	fmt.Printf("Emitting an event with name '%s' ...\n", eventName)
+
+	time.Sleep(time.Second)
+
+	emitter.Emit(eventName, "Hello World\n")
+
+	time.Sleep(time.Second)
+
+	fmt.Printf("Detaching event with name '%s' ...\n", eventName)
+
+	time.Sleep(time.Second)
+
+	event.DetachEvent(eventName)
+
+	time.Sleep(time.Second)
+
+	fmt.Printf("Emitting event  with name '%s' ...\n", eventName)
+
+	time.Sleep(time.Second)
+
+	emitter.Emit(eventName, "The event is still exist\n")
+
+	fmt.Scanln()
+
+}
+
+func printSomethingHandler(data ...interface{}) {
+	for _, v := range data {
+		if str, ok := v.(string); ok {
+			fmt.Printf("String: %s", str)
+		}
+	}
+}
+```
