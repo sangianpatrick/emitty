@@ -1,6 +1,7 @@
 # emitty
 
-A simple Event Emitter package for Golang application
+A simple Event Emitter package for Golang application. This package contains both Emitter and Event.
+Emitter only has one function "Emit()" that send the data to the listener. Before the listener do its jobs, Event should attach an event name and a handler (to be executed after event is catched) by AttachEvent function, but if the event is needless, it could be detached by DetachEvent function.
 
 ## How to install
 
@@ -9,6 +10,7 @@ Using go get :
 ```go get -u github.com/sangianpatrick/emitty```
 
 Using DEP :
+
 ```dep ensure -add github.com/sangianpatrick/emitty```
 
 ## How to use
