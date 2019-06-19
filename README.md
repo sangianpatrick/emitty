@@ -72,3 +72,13 @@ func exampleHandler(args ...interface{}) {
 	}
 }
 ```
+
+The result will be:
+
+```
+Emitty Simple Usage
+Emitty [INFO]: Name: Listener | Message: Running on 3 workers | Data <nil>
+Emitty [INFO]: Name: Listener | Message: Executing handler on event 'printStr' | Data <nil>
+String: Hello World
+Emitty [INFO]: Name: Listener | Message: Event with name 'printStr' has been detached | Data <nil>
+```
