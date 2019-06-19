@@ -1,6 +1,6 @@
 package emitty
 
-// Signal contains channel that bridging the Emitter and Listener to have comunication.
+// Signal contains channel that bridging the Emitter and Listener to have communication.
 type Signal struct {
 	channel chan *Message
 	debug   bool
