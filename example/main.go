@@ -46,8 +46,8 @@ func main() {
 	fmt.Scanln()
 }
 
-func exampleHandler(data ...interface{}) {
-	if str, ok := data[0].(string); ok {
+func exampleHandler(args ...interface{}) {
+	if str, ok := args[0].(string); ok {
 		fmt.Printf("String: %s", str)
 	}
 }
