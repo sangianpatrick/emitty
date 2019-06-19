@@ -8,48 +8,42 @@ import (
 )
 
 func main() {
-	M := emitty.New()
+	defer func() {
+		recover()
+		fmt.Println("Program Exit")
+	}()
+	signal := emitty.New(true)
+	listener := emitty.NewListener(&emitty.Config{
+		Signal:          signal,
+		NumberOfWorkers: 3,
+	})
 
-	event := emitty.NewEvent(M)
-	emitter := emitty.NewEmitter(M)
+	err := listener.AttachEvent(&emitty.Event{
+		Name:             "printStr",
+		ActiveOn:         time.Now().Add(time.Second * 0),
+		Expiration:       time.Second * 60,
+		Handler:          exampleHandler,
+		MaxHits:          5,
+		StartImmediately: true,
+	})
 
-	eventName := "print"
+	listener.Start()
 
-	fmt.Printf("Attaching event with name '%s' ...\n", eventName)
-	event.AttachEvent(eventName, printSomethingHandler)
+	emitter := emitty.NewEmitter(signal)
 
-	time.Sleep(time.Second)
+	if err != nil {
+		panic(err)
+	}
 
-	fmt.Printf("Emitting an event with name '%s' ...\n", eventName)
+	time.Sleep(time.Second * 5)
 
-	time.Sleep(time.Second)
-
-	emitter.Emit(eventName, "Hello World\n")
-
-	time.Sleep(time.Second)
-
-	fmt.Printf("Detaching event with name '%s' ...\n", eventName)
-
-	time.Sleep(time.Second)
-
-	event.DetachEvent(eventName)
-
-	time.Sleep(time.Second)
-
-	fmt.Printf("Emitting event  with name '%s' ...\n", eventName)
-
-	time.Sleep(time.Second)
-
-	emitter.Emit(eventName, "The event is still exist\n")
+	emitter.Emit("printStr", "Patrick")
 
 	fmt.Scanln()
-
 }
 
-func printSomethingHandler(data ...interface{}) {
-	for _, v := range data {
-		if str, ok := v.(string); ok {
-			fmt.Printf("String: %s", str)
-		}
+func exampleHandler(data ...interface{}) {
+	if str, ok := data[0].(string); ok {
+		fmt.Printf("String: %s", str)
 	}
 }

@@ -6,13 +6,13 @@ type Emitter interface {
 }
 
 type emitter struct {
-	ch chan<- *Message
+	signal *Signal
 }
 
 // NewEmitter will return emitter
-func NewEmitter(ch chan<- *Message) Emitter {
+func NewEmitter(s *Signal) Emitter {
 	return &emitter{
-		ch: ch,
+		signal: s,
 	}
 }
 
@@ -22,5 +22,5 @@ func (e *emitter) Emit(eventName string, data ...interface{}) {
 		EventName: eventName,
 		Data:      data,
 	}
-	e.ch <- message
+	e.signal.channel <- message
 }

@@ -1,7 +1,10 @@
 package emitty
 
 // New will return event message
-func New() chan *Message {
+func New(debug bool) *Signal {
 	ch := make(chan *Message)
-	return ch
+	return &Signal{
+		channel: ch,
+		debug:   debug,
+	}
 }
