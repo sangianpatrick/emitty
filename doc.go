@@ -9,7 +9,7 @@
 //
 // 	fmt.Println("Emitty Simple Usage")
 //
-// 	signal := emitty.New(true)
+// 	signal := emitty.New(debug)
 // 	listener := emitty.NewListener(&emitty.Config{
 // 		Signal:          signal,
 // 		NumberOfWorkers: 3,
