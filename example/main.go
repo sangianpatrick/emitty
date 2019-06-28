@@ -7,6 +7,12 @@ import (
 	"github.com/sangianpatrick/emitty"
 )
 
+var debug bool
+
+func init() {
+	debug = true
+}
+
 func main() {
 	defer func() {
 		r := recover()
@@ -17,7 +23,7 @@ func main() {
 
 	fmt.Println("Emitty Simple Usage")
 
-	signal := emitty.New(true)
+	signal := emitty.New(debug)
 	listener := emitty.NewListener(&emitty.Config{
 		Signal:          signal,
 		NumberOfWorkers: 3,
